@@ -1,28 +1,26 @@
 import pygame
+from Config import *
+from LevelClass import Level
 
 pygame.init()
-screen = pygame.display.set_mode((1200, 700))
-player = pygame.Rect(600, 350, 50, 50)
-movement_speed = 2
+clock = pygame.time.Clock()
 
-loop = True
-while loop:
+displaySurface = pygame.display.set_mode((window_width, window_height))
+pygame.display.set_caption('Dusk Dashers')
+
+level = Level(displaySurface)
+
+
+isGameRunning = True
+while isGameRunning:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            loop = False
-
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player.y -= movement_speed
-    if keys[pygame.K_s]:
-        player.y += movement_speed
-    if keys[pygame.K_a]:
-        player.x -= movement_speed
-    if keys[pygame.K_d]:
-        player.x += movement_speed
-
-    screen.fill((255, 255, 255))
-    pygame.draw.rect(screen, (0, 0, 0), player)
-    pygame.display.update()
+            isGameRunning = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                isGameRunning = False
+    level.run()
+    pygame.display.flip()
+    clock.tick(60)
 
 pygame.quit()
